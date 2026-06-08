@@ -1,0 +1,526 @@
+{
+  "info": {
+    "_postman_id": "c2dfef61-7b7f-4c81-9bb5-athar-api",
+    "name": "athar",
+    "description": "Laravel API collection for the Athar backend. Set baseUrl to your running API, for example http://127.0.0.1:8088/api.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8088/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pageId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoryTypeId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "genderId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "variantId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "colorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "1_1",
+      "type": "string"
+    },
+    {
+      "key": "deliveryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "couponCode",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.request.headers.upsert({ key: 'Accept', value: 'application/json' });"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Home",
+      "item": [
+        {
+          "name": "Index",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Home data: sliders, banners, categories, products, featured products, and reviews."
+          }
+        },
+        {
+          "name": "Page Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/page/{{pageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "page",
+                "{{pageId}}"
+              ]
+            },
+            "description": "Fetch a page by id. If the id is omitted, Laravel defaults to page 1."
+          }
+        },
+        {
+          "name": "Contacts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/contacts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contacts"
+              ]
+            },
+            "description": "Contact page data."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&search=&category=&categories[]=&min=&max=&colors[]=&stock=&discount=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "Search product name in English or Arabic."
+                },
+                {
+                  "key": "category",
+                  "value": "",
+                  "description": "Single category id."
+                },
+                {
+                  "key": "categories[]",
+                  "value": "",
+                  "description": "Multiple category ids. Duplicate this query key for more ids."
+                },
+                {
+                  "key": "min",
+                  "value": "",
+                  "description": "Minimum variant price. Used with max."
+                },
+                {
+                  "key": "max",
+                  "value": "",
+                  "description": "Maximum variant price. Used with min."
+                },
+                {
+                  "key": "colors[]",
+                  "value": "",
+                  "description": "Multiple color ids. Duplicate this query key for more ids."
+                },
+                {
+                  "key": "stock",
+                  "value": "",
+                  "description": "Any non-empty value filters products with stock."
+                },
+                {
+                  "key": "discount",
+                  "value": "",
+                  "description": "Any non-empty value filters products with old_price greater than price."
+                }
+              ]
+            },
+            "description": "Paginated product listing. Empty query values can be removed when not needed."
+          }
+        },
+        {
+          "name": "Products By Category Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/category-type/{{categoryTypeId}}?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "category-type",
+                "{{categoryTypeId}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Products under one category type. Supports the same filters as All Products."
+          }
+        },
+        {
+          "name": "Products By Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/category/{{categoryId}}?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "category",
+                "{{categoryId}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Products under one category. Supports the same filters as All Products."
+          }
+        },
+        {
+          "name": "Products By Gender",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/gender/{{genderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "gender",
+                "{{genderId}}"
+              ]
+            },
+            "description": "Route exists in routes/api.php, but the controller method is currently commented out in ProductWebController, so this endpoint may return a server error until implemented."
+          }
+        },
+        {
+          "name": "Product Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/details/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "details",
+                "{{productId}}"
+              ]
+            },
+            "description": "Product details with category, images, variants, unique sizes/colors, related products, and featured products."
+          }
+        },
+        {
+          "name": "Quick View",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/quick-view/{{variantId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "quick-view",
+                "{{variantId}}"
+              ]
+            },
+            "description": "Fetch product quick-view data by variant id."
+          }
+        },
+        {
+          "name": "Variants By Product And Color",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/variants/{{productId}}/{{colorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "variants",
+                "{{productId}}",
+                "{{colorId}}"
+              ]
+            },
+            "description": "Fetch variants for one product and color."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "description": "Cart endpoints use the Laravel cart package. Keep Postman's cookie jar enabled so cart data persists between requests.",
+      "item": [
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            },
+            "description": "Fetch cart items, count, subtotal, and categories."
+          }
+        },
+        {
+          "name": "Add To Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{productId}},\n  \"variant\": {{variantId}},\n  \"qty\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/add-to-cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "add-to-cart"
+              ]
+            },
+            "description": "Add a product variant to the cart. id is product id, variant is variant id."
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{cartItemId}}\",\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/update-cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "update-cart"
+              ]
+            },
+            "description": "Update cart quantity. The cart item id is usually productId_variantId, for example 1_1."
+          }
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{cartItemId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/remove-from-cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "remove-from-cart"
+              ]
+            },
+            "description": "Remove a cart item by cart item id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "Checkout Data",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/checkout?coupon_code={{couponCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "checkout"
+              ],
+              "query": [
+                {
+                  "key": "coupon_code",
+                  "value": "{{couponCode}}",
+                  "description": "Optional promo code."
+                }
+              ]
+            },
+            "description": "Fetch checkout data. Requires a non-empty cart."
+          }
+        },
+        {
+          "name": "Store Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Postman\",\n  \"pay\": \"cash\",\n  \"coupon_code\": \"{{couponCode}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/store-order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "store-order"
+              ]
+            },
+            "description": "Create an order from the current cart. Requires a non-empty cart. pay can be cash or card; card returns payment_url if the payment route exists."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Authenticated User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user"
+              ]
+            },
+            "description": "Protected Sanctum route from Laravel's default API setup. This project does not currently define an API login/token route in routes/api.php."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "project": "Athar Flutter Backend",
+  "database": "mysql",
+  "notes": [
+    "This schema collection is based on the current Laravel migrations.",
+    "Fields typed as json are intended for translated values, usually en/ar.",
+    "The current migration has products -> category_id, variants -> product_id/color_id/size_id, orders -> user_id."
+  ],
+  "tables": [
+    {
+      "name": "users",
+      "purpose": "Customers and dashboard admins",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "first_name", "type": "varchar(255)", "required": true },
+        { "name": "last_name", "type": "varchar(255)", "nullable": true },
+        { "name": "email", "type": "varchar(255)", "unique": true, "required": true },
+        { "name": "phone", "type": "varchar(255)", "nullable": true },
+        { "name": "is_admin", "type": "tinyint", "default": 0 },
+        { "name": "email_verified_at", "type": "timestamp", "nullable": true },
+        { "name": "password", "type": "varchar(255)", "required": true },
+        { "name": "remember_token", "type": "varchar(100)", "nullable": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "personal_access_tokens",
+      "purpose": "Sanctum API tokens for Flutter login",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "tokenable_type", "type": "varchar(255)" },
+        { "name": "tokenable_id", "type": "bigint unsigned" },
+        { "name": "name", "type": "varchar(255)" },
+        { "name": "token", "type": "varchar(64)", "unique": true },
+        { "name": "abilities", "type": "text", "nullable": true },
+        { "name": "last_used_at", "type": "timestamp", "nullable": true },
+        { "name": "expires_at", "type": "timestamp", "nullable": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "pages",
+      "purpose": "Static content pages",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "title", "type": "json" },
+        { "name": "text", "type": "json" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "contacts",
+      "purpose": "Contact info and social links",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "phone1", "type": "varchar(255)" },
+        { "name": "phone2", "type": "varchar(255)", "nullable": true },
+        { "name": "email", "type": "varchar(255)" },
+        { "name": "time", "type": "varchar(255)" },
+        { "name": "address", "type": "json" },
+        { "name": "facebook", "type": "varchar(255)", "nullable": true },
+        { "name": "whatsapp", "type": "varchar(255)", "nullable": true },
+        { "name": "instagram", "type": "varchar(255)", "nullable": true },
+        { "name": "linkedin", "type": "varchar(255)", "nullable": true },
+        { "name": "twitter", "type": "varchar(255)", "nullable": true },
+        { "name": "youtube", "type": "varchar(255)", "nullable": true },
+        { "name": "tiktok", "type": "varchar(255)", "nullable": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "sliders",
+      "purpose": "Home carousel",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "url", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "banners",
+      "purpose": "Promotional banners",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "url", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "reviews",
+      "purpose": "Customer reviews shown on home",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "json" },
+        { "name": "text", "type": "json" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "settings",
+      "purpose": "SEO and global storefront images",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "keywords", "type": "json" },
+        { "name": "description", "type": "json" },
+        { "name": "main_image", "type": "varchar(255)" },
+        { "name": "banner_image", "type": "varchar(255)" },
+        { "name": "banner_url", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "category_types",
+      "purpose": "Top-level category groups",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "title", "type": "varchar(255)" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "show", "type": "tinyint", "default": 0 },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "categories",
+      "purpose": "Product categories",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "title", "type": "json" },
+        { "name": "category_type_id", "type": "bigint unsigned", "nullable": true, "references": "category_types.id", "on_delete": "set null" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "colors",
+      "purpose": "Product variant colors",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "json" },
+        { "name": "code", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "sizes",
+      "purpose": "Product variant sizes",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ],
+      "note": "Model exists in the current project. Keep this table in the new project because variants reference size_id."
+    },
+    {
+      "name": "products",
+      "purpose": "Store catalog products",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "json" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "description", "type": "json" },
+        { "name": "category_id", "type": "bigint unsigned", "references": "categories.id", "on_delete": "cascade" },
+        { "name": "is_featured", "type": "tinyint", "default": 0 },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "variants",
+      "purpose": "Sellable product variants",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "product_id", "type": "bigint unsigned", "references": "products.id", "on_delete": "cascade" },
+        { "name": "color_id", "type": "bigint unsigned", "references": "colors.id", "on_delete": "cascade" },
+        { "name": "size_id", "type": "bigint unsigned", "references": "sizes.id", "on_delete": "cascade" },
+        { "name": "quantity", "type": "bigint unsigned" },
+        { "name": "price", "type": "decimal(10,2)" },
+        { "name": "old_price", "type": "decimal(10,2)", "nullable": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ],
+      "unique": [["product_id", "color_id", "size_id"]]
+    },
+    {
+      "name": "product_images",
+      "purpose": "Additional product images by color",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "product_id", "type": "bigint unsigned", "references": "products.id", "on_delete": "cascade" },
+        { "name": "color_id", "type": "bigint unsigned", "references": "colors.id", "on_delete": "cascade" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "deliveries",
+      "purpose": "Delivery methods and shipping costs",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "json" },
+        { "name": "cost", "type": "decimal(6,2)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "addresses",
+      "purpose": "Saved customer addresses",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "user_id", "type": "bigint unsigned", "references": "users.id", "on_delete": "cascade" },
+        { "name": "delivery_id", "type": "bigint unsigned", "references": "deliveries.id", "on_delete": "cascade" },
+        { "name": "city", "type": "varchar(255)" },
+        { "name": "address", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "promo_codes",
+      "purpose": "Discount coupons",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "code", "type": "varchar(255)", "unique": true },
+        { "name": "discount_type", "type": "enum", "values": ["percentage", "fixed"] },
+        { "name": "discount_value", "type": "decimal(8,2)" },
+        { "name": "max_uses", "type": "integer", "default": 1 },
+        { "name": "uses_count", "type": "integer", "default": 0 },
+        { "name": "start_date", "type": "timestamp", "nullable": true },
+        { "name": "end_date", "type": "timestamp", "nullable": true },
+        { "name": "is_active", "type": "boolean", "default": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "orders",
+      "purpose": "Customer orders",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "code", "type": "bigint" },
+        { "name": "user_id", "type": "bigint unsigned", "nullable": true, "references": "users.id", "on_delete": "set null" },
+        { "name": "user_name", "type": "varchar(255)" },
+        { "name": "phone", "type": "varchar(255)" },
+        { "name": "delivery", "type": "varchar(255)" },
+        { "name": "city", "type": "varchar(255)" },
+        { "name": "address", "type": "text" },
+        { "name": "shipping", "type": "decimal(6,2)", "default": 0 },
+        { "name": "total", "type": "decimal(12,2)" },
+        { "name": "status", "type": "enum", "values": ["pending", "processing", "completed", "cancelled", "returned"], "default": "pending" },
+        { "name": "readed", "type": "boolean", "default": false },
+        { "name": "note", "type": "text", "nullable": true },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ],
+      "recommended_extra_columns": [
+        { "name": "email", "type": "varchar(255)", "nullable": true },
+        { "name": "coupon", "type": "varchar(255)", "nullable": true },
+        { "name": "discount", "type": "varchar(255)", "nullable": true },
+        { "name": "payment_method", "type": "varchar(255)", "nullable": true },
+        { "name": "payment_status", "type": "varchar(255)", "default": "unpaid" }
+      ]
+    },
+    {
+      "name": "order_details",
+      "purpose": "Order line items",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "order_id", "type": "bigint unsigned", "references": "orders.id", "on_delete": "cascade" },
+        { "name": "product_id", "type": "bigint unsigned", "nullable": true, "references": "products.id", "on_delete": "set null" },
+        { "name": "name", "type": "varchar(255)" },
+        { "name": "color", "type": "varchar(255)" },
+        { "name": "size", "type": "varchar(255)" },
+        { "name": "quantity", "type": "integer unsigned" },
+        { "name": "price", "type": "decimal(10,2)" },
+        { "name": "total_price", "type": "decimal(12,2)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "messages",
+      "purpose": "Contact form messages",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "name", "type": "varchar(255)" },
+        { "name": "email", "type": "varchar(255)" },
+        { "name": "subject", "type": "varchar(255)" },
+        { "name": "phone", "type": "varchar(255)" },
+        { "name": "message", "type": "longtext" },
+        { "name": "read", "type": "tinyint", "default": 0 },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "newsletters",
+      "purpose": "Newsletter subscribers",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "email", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    },
+    {
+      "name": "desgins",
+      "recommended_name": "designs",
+      "purpose": "Custom design entries",
+      "columns": [
+        { "name": "id", "type": "bigint unsigned", "primary": true },
+        { "name": "height", "type": "varchar(255)" },
+        { "name": "width", "type": "varchar(255)" },
+        { "name": "name", "type": "varchar(255)" },
+        { "name": "color", "type": "varchar(255)" },
+        { "name": "image", "type": "varchar(255)" },
+        { "name": "created_at", "type": "timestamp", "nullable": true },
+        { "name": "updated_at", "type": "timestamp", "nullable": true }
+      ]
+    }
+  ],
+  "relationships": [
+    "category_types has many categories",
+    "categories has many products",
+    "products has many variants",
+    "products has many product_images",
+    "variants belongs to product, color, and size",
+    "users has one address",
+    "users has many orders",
+    "orders has many order_details",
+    "deliveries has many addresses"
+  ]
+}
+

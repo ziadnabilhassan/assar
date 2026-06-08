@@ -1,0 +1,317 @@
+{
+  "info": {
+    "_postman_id": "14d0fef1-athar-flutter-api",
+    "name": "Athar Flutter API - New Project",
+    "description": "Flutter-friendly API collection for a clean Athar backend. Includes proposed Sanctum auth endpoints plus storefront, cart, checkout, orders, and admin dashboard endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8088/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "adminToken", "value": "", "type": "string" },
+    { "key": "pageId", "value": "1", "type": "string" },
+    { "key": "categoryTypeId", "value": "1", "type": "string" },
+    { "key": "categoryId", "value": "1", "type": "string" },
+    { "key": "productId", "value": "1", "type": "string" },
+    { "key": "variantId", "value": "1", "type": "string" },
+    { "key": "colorId", "value": "1", "type": "string" },
+    { "key": "cartItemId", "value": "1_1", "type": "string" },
+    { "key": "deliveryId", "value": "1", "type": "string" },
+    { "key": "orderId", "value": "1", "type": "string" },
+    { "key": "couponCode", "value": "WELCOME10", "type": "string" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.request.headers.upsert({ key: 'Accept', value: 'application/json' });",
+          "pm.request.headers.upsert({ key: 'Content-Type', value: 'application/json' });"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"email\": \"ziad@example.com\",\n  \"phone\": \"01000000000\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] },
+            "description": "Proposed endpoint for Flutter account creation. Should return user and token."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.token) { pm.collectionVariables.set('token', json.data.token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ziad@example.com\",\n  \"password\": \"password\",\n  \"device_name\": \"flutter_app\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+            "description": "Proposed Sanctum token login for Flutter. Current project only has web /login, so add this in the new project."
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] },
+            "description": "Return authenticated user."
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] },
+            "description": "Delete the current Sanctum token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Storefront",
+      "item": [
+        {
+          "name": "Home",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/home", "host": ["{{baseUrl}}"], "path": ["home"] },
+            "description": "Home data: sliders, banners, categories, products, features, reviews."
+          }
+        },
+        {
+          "name": "Page Details",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/pages/{{pageId}}", "host": ["{{baseUrl}}"], "path": ["pages", "{{pageId}}"] }
+          }
+        },
+        {
+          "name": "Contacts",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/contacts", "host": ["{{baseUrl}}"], "path": ["contacts"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "All Products",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&search=&category=&min=&max=&colors[]=&stock=&discount=",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "search", "value": "" },
+                { "key": "category", "value": "" },
+                { "key": "min", "value": "" },
+                { "key": "max", "value": "" },
+                { "key": "colors[]", "value": "" },
+                { "key": "stock", "value": "" },
+                { "key": "discount", "value": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Products By Category Type",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/category-types/{{categoryTypeId}}?page=1", "host": ["{{baseUrl}}"], "path": ["products", "category-types", "{{categoryTypeId}}"], "query": [{ "key": "page", "value": "1" }] }
+          }
+        },
+        {
+          "name": "Products By Category",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/categories/{{categoryId}}?page=1", "host": ["{{baseUrl}}"], "path": ["products", "categories", "{{categoryId}}"], "query": [{ "key": "page", "value": "1" }] }
+          }
+        },
+        {
+          "name": "Product Details",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Product Variants By Color",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}/colors/{{colorId}}/variants", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "colors", "{{colorId}}", "variants"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "description": "Recommended mobile cart endpoints. Use token auth for user cart or noauth for guest cart with a guest_id.",
+      "item": [
+        {
+          "name": "Get Cart",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] } }
+        },
+        {
+          "name": "Add Cart Item",
+          "request": {
+            "method": "POST",
+            "body": { "mode": "raw", "raw": "{\n  \"product_id\": {{productId}},\n  \"variant_id\": {{variantId}},\n  \"quantity\": 1\n}" },
+            "url": { "raw": "{{baseUrl}}/cart/items", "host": ["{{baseUrl}}"], "path": ["cart", "items"] }
+          }
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PATCH",
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 2\n}" },
+            "url": { "raw": "{{baseUrl}}/cart/items/{{cartItemId}}", "host": ["{{baseUrl}}"], "path": ["cart", "items", "{{cartItemId}}"] }
+          }
+        },
+        {
+          "name": "Remove Cart Item",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/cart/items/{{cartItemId}}", "host": ["{{baseUrl}}"], "path": ["cart", "items", "{{cartItemId}}"] }
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkout And Orders",
+      "item": [
+        {
+          "name": "Checkout Data",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/checkout?coupon_code={{couponCode}}", "host": ["{{baseUrl}}"], "path": ["checkout"], "query": [{ "key": "coupon_code", "value": "{{couponCode}}" }] }
+          }
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cash\",\n  \"coupon_code\": \"{{couponCode}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }
+          }
+        },
+        {
+          "name": "My Orders",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] } }
+        },
+        {
+          "name": "Order Details",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}"] } }
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard API",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          { "key": "token", "value": "{{adminToken}}", "type": "string" }
+        ]
+      },
+      "item": [
+        {
+          "name": "Dashboard Overview",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] },
+            "description": "Counts: orders, products, users, messages, revenue, recent orders."
+          }
+        },
+        {
+          "name": "Products - Index",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/products", "host": ["{{baseUrl}}"], "path": ["admin", "products"] } }
+        },
+        {
+          "name": "Products - Store",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": {\"en\": \"T-Shirt\", \"ar\": \"تي شيرت\"},\n  \"description\": {\"en\": \"Cotton t-shirt\", \"ar\": \"تي شيرت قطن\"},\n  \"category_id\": {{categoryId}},\n  \"is_featured\": 1,\n  \"image\": \"products/main.jpg\",\n  \"variants\": [\n    {\"color_id\": {{colorId}}, \"size_id\": 1, \"quantity\": 10, \"price\": 350, \"old_price\": 400}\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/products", "host": ["{{baseUrl}}"], "path": ["admin", "products"] }
+          }
+        },
+        {
+          "name": "Orders - Index",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/orders", "host": ["{{baseUrl}}"], "path": ["admin", "orders"] } }
+        },
+        {
+          "name": "Orders - Change Status",
+          "request": {
+            "method": "PATCH",
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"processing\"\n}" },
+            "url": { "raw": "{{baseUrl}}/admin/orders/{{orderId}}/status", "host": ["{{baseUrl}}"], "path": ["admin", "orders", "{{orderId}}", "status"] }
+          }
+        },
+        {
+          "name": "Generic Admin Resource Names",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/admin/{resource}", "host": ["{{baseUrl}}"], "path": ["admin", "{resource}"] },
+            "description": "Use CRUD endpoints for sliders, banners, pages, designs, reviews, settings, contacts, category-types, categories, brands, colors, sizes, deliveries, promo-codes, users, messages, newsletters."
+          }
+        }
+      ]
+    }
+  ]
+}
+
