@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Front\ProductWebController;
 use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\CategoryTypeController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Front\ShoppingCartController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -60,7 +61,7 @@ Route::group(
 
         // admin dashboard
         Route::prefix('websolla-db')->middleware(['auth', 'admin'])->group(function () {
-            Route::view('/', 'dashboard')->name('dashboard');
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
             Route::resource('/sliders', SliderController::class);
             Route::resource('/pages', PageController::class);
             Route::resource('/desgins', DesginController::class);
