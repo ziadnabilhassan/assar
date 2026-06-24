@@ -3,6 +3,10 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+<?php
+
+require __DIR__ . '/../public/index.php';
+
 define('LARAVEL_START', microtime(true));
 
 /*
