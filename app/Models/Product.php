@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasFullImageUrl;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,6 +11,7 @@ class Product extends Model
 {
     use HasFactory;
     use HasTranslations;
+    use HasFullImageUrl;
     public $translatable = ['name', 'description'];
     protected $guarded = [];
 

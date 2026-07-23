@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderDetail extends Model
+class CartItem extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'total_price' => 'decimal:2',
         'is_custom_design' => 'boolean',
         'design_data' => 'array',
     ];
 
-    public function order()
+    public function user()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(User::class);
     }
 
     public function product()
@@ -27,4 +27,13 @@ class OrderDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class);
+    }
+
+    public function design()
+    {
+        return $this->belongsTo(SavedDesign::class, 'design_id');
+    }
 }

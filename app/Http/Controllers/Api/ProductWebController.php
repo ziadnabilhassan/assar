@@ -211,7 +211,8 @@ class ProductWebController extends Controller
         $product = Product::with([
             'category.categoryType',
             'images',
-            'variants.color'
+            'variants.color',
+            'variants.size'
         ])->findOrFail($id);
 
         $features = Product::with([

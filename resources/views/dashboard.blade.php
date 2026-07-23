@@ -45,6 +45,18 @@
         background: linear-gradient(45deg,#f6c23e,#dda20a);
     }
 
+    .bg-stickers{
+        background: linear-gradient(45deg,#e83e8c,#a61e58);
+    }
+
+    .bg-saved-designs{
+        background: linear-gradient(45deg,#20c997,#0f766e);
+    }
+
+    .bg-cart-items{
+        background: linear-gradient(45deg,#fd7e14,#c2410c);
+    }
+
     .table img{
         object-fit: cover;
         border-radius: 10px;
@@ -227,6 +239,67 @@
 
             </div>
 
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        {{-- DESIGN STICKERS --}}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <a href="{{ route('design-stickers.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Design Stickers</h6>
+                                <h2 class="fw-bold text-dark">{{ $totalDesignStickers }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-stickers">
+                                <i class="las la-smile"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {{-- SAVED DESIGNS --}}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <a href="{{ route('saved-designs.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Saved Designs</h6>
+                                <h2 class="fw-bold text-dark">{{ $totalSavedDesigns }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-saved-designs">
+                                <i class="las la-save"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {{-- CART ITEMS --}}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <a href="{{ route('cart-items.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Cart Items</h6>
+                                <h2 class="fw-bold text-dark">{{ $totalCartItems }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-cart-items">
+                                <i class="las la-shopping-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
 
     </div>

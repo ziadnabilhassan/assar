@@ -6,14 +6,15 @@ use App\Models\Concerns\HasFullImageUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductImage extends Model
+class DesignSticker extends Model
 {
     use HasFactory;
     use HasFullImageUrl;
+
     protected $guarded = [];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    protected $casts = [
+        'is_active' => 'boolean',
+        'sort_order' => 'integer',
+    ];
 }

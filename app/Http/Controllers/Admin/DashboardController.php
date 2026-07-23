@@ -11,6 +11,9 @@ use App\Models\Review;
 use App\Models\Order;
 use App\Models\Slider;
 use App\Models\Variant;
+use App\Models\CartItem;
+use App\Models\DesignSticker;
+use App\Models\SavedDesign;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -33,6 +36,12 @@ class DashboardController extends Controller
         $totalReviews = Review::count();
 
         $totalSliders = Slider::count();
+
+        $totalDesignStickers = DesignSticker::count();
+
+        $totalSavedDesigns = SavedDesign::count();
+
+        $totalCartItems = CartItem::count();
 
 
         // =========================
@@ -105,6 +114,9 @@ class DashboardController extends Controller
             'totalCategories',
             'totalReviews',
             'totalSliders',
+            'totalDesignStickers',
+            'totalSavedDesigns',
+            'totalCartItems',
             'avgRating',
             'topCategories',
             'latestProducts',

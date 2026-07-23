@@ -6,24 +6,95 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://127.0.0.1:8088/api", "type": "string" },
-    { "key": "token", "value": "", "type": "string" },
-    { "key": "adminToken", "value": "", "type": "string" },
-    { "key": "pageId", "value": "1", "type": "string" },
-    { "key": "categoryTypeId", "value": "1", "type": "string" },
-    { "key": "categoryId", "value": "1", "type": "string" },
-    { "key": "productId", "value": "1", "type": "string" },
-    { "key": "variantId", "value": "1", "type": "string" },
-    { "key": "colorId", "value": "1", "type": "string" },
-    { "key": "cartItemId", "value": "1_1", "type": "string" },
-    { "key": "deliveryId", "value": "1", "type": "string" },
-    { "key": "orderId", "value": "1", "type": "string" },
-    { "key": "couponCode", "value": "WELCOME10", "type": "string" }
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8088/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pageId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoryTypeId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "variantId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "colorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "deliveryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "couponCode",
+      "value": "WELCOME10",
+      "type": "string"
+    },
+    {
+      "key": "designTemplateId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "designStickerId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "savedDesignId",
+      "value": "1",
+      "type": "string"
+    }
   ],
   "auth": {
     "type": "bearer",
     "bearer": [
-      { "key": "token", "value": "{{token}}", "type": "string" }
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
     ]
   },
   "event": [
@@ -45,13 +116,24 @@
         {
           "name": "Register",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"email\": \"ziad@example.com\",\n  \"phone\": \"01000000000\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\"\n}"
             },
-            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
             "description": "Proposed endpoint for Flutter account creation. Should return user and token."
           }
         },
@@ -70,13 +152,24 @@
             }
           ],
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"ziad@example.com\",\n  \"password\": \"password\",\n  \"device_name\": \"flutter_app\"\n}"
             },
-            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
             "description": "Proposed Sanctum token login for Flutter. Current project only has web /login, so add this in the new project."
           }
         },
@@ -84,7 +177,16 @@
           "name": "Me",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] },
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
             "description": "Return authenticated user."
           }
         },
@@ -92,7 +194,16 @@
           "name": "Logout",
           "request": {
             "method": "POST",
-            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] },
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
             "description": "Delete the current Sanctum token."
           }
         }
@@ -104,26 +215,57 @@
         {
           "name": "Home",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/home", "host": ["{{baseUrl}}"], "path": ["home"] },
+            "url": {
+              "raw": "{{baseUrl}}/home",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home"
+              ]
+            },
             "description": "Home data: sliders, banners, categories, products, features, reviews."
           }
         },
         {
           "name": "Page Details",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/pages/{{pageId}}", "host": ["{{baseUrl}}"], "path": ["pages", "{{pageId}}"] }
+            "url": {
+              "raw": "{{baseUrl}}/pages/{{pageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pages",
+                "{{pageId}}"
+              ]
+            }
           }
         },
         {
           "name": "Contacts",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/contacts", "host": ["{{baseUrl}}"], "path": ["contacts"] }
+            "url": {
+              "raw": "{{baseUrl}}/contacts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "contacts"
+              ]
+            }
           }
         }
       ]
@@ -134,21 +276,51 @@
         {
           "name": "All Products",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "url": {
               "raw": "{{baseUrl}}/products?page=1&search=&category=&min=&max=&colors[]=&stock=&discount=",
-              "host": ["{{baseUrl}}"],
-              "path": ["products"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
               "query": [
-                { "key": "page", "value": "1" },
-                { "key": "search", "value": "" },
-                { "key": "category", "value": "" },
-                { "key": "min", "value": "" },
-                { "key": "max", "value": "" },
-                { "key": "colors[]", "value": "" },
-                { "key": "stock", "value": "" },
-                { "key": "discount", "value": "" }
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "category",
+                  "value": ""
+                },
+                {
+                  "key": "min",
+                  "value": ""
+                },
+                {
+                  "key": "max",
+                  "value": ""
+                },
+                {
+                  "key": "colors[]",
+                  "value": ""
+                },
+                {
+                  "key": "stock",
+                  "value": ""
+                },
+                {
+                  "key": "discount",
+                  "value": ""
+                }
               ]
             }
           }
@@ -156,73 +328,555 @@
         {
           "name": "Products By Category Type",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/products/category-types/{{categoryTypeId}}?page=1", "host": ["{{baseUrl}}"], "path": ["products", "category-types", "{{categoryTypeId}}"], "query": [{ "key": "page", "value": "1" }] }
+            "url": {
+              "raw": "{{baseUrl}}/products/category-types/{{categoryTypeId}}?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "category-types",
+                "{{categoryTypeId}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
           }
         },
         {
           "name": "Products By Category",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/products/categories/{{categoryId}}?page=1", "host": ["{{baseUrl}}"], "path": ["products", "categories", "{{categoryId}}"], "query": [{ "key": "page", "value": "1" }] }
+            "url": {
+              "raw": "{{baseUrl}}/products/categories/{{categoryId}}?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "categories",
+                "{{categoryId}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
           }
         },
         {
           "name": "Product Details",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "{{productId}}"
+              ]
+            }
           }
         },
         {
           "name": "Product Variants By Color",
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/products/{{productId}}/colors/{{colorId}}/variants", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}", "colors", "{{colorId}}", "variants"] }
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}/colors/{{colorId}}/variants",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "{{productId}}",
+                "colors",
+                "{{colorId}}",
+                "variants"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Designs",
+      "description": "Design editor endpoints. Templates and stickers are shared for all users; saved designs are scoped to the authenticated user.",
+      "item": [
+        {
+          "name": "Design Templates",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/designs/templates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "templates"
+              ]
+            },
+            "description": "Shared product/base design templates for the design screen."
+          }
+        },
+        {
+          "name": "Design Stickers",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/designs/stickers?category=",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "stickers"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "",
+                  "description": "Optional sticker category filter."
+                }
+              ]
+            },
+            "description": "Shared sticker catalog visible to all users."
+          }
+        },
+        {
+          "name": "My Saved Designs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/designs/saved?page=1&per_page=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "saved"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Authenticated user's saved designs."
+          }
+        },
+        {
+          "name": "Save Design",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.id) { pm.collectionVariables.set('savedDesignId', json.data.id); }",
+                  "else if (json.data && json.data.design && json.data.design.id) { pm.collectionVariables.set('savedDesignId', json.data.design.id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Custom T-shirt Design\",\n  \"design_id\": {{designTemplateId}},\n  \"preview_image_url\": null,\n  \"design_data\": {\n    \"product\": {},\n    \"template\": {},\n    \"canvas\": {},\n    \"layers\": []\n  },\n  \"sticker_ids\": [{{designStickerId}}]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/designs/saved",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "saved"
+              ]
+            },
+            "description": "Save the designer state before adding to cart. Flutter should use data.id as the custom cart item design_id."
+          },
+          "response": [
+            {
+              "name": "Saved Design Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/designs/saved",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "designs",
+                    "saved"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Custom T-shirt Design\",\n  \"design_id\": {{designTemplateId}},\n  \"preview_image_url\": null,\n  \"design_data\": {\n    \"product\": {},\n    \"template\": {},\n    \"canvas\": {},\n    \"layers\": []\n  },\n  \"sticker_ids\": [{{designStickerId}}]\n}"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Design saved successfully\",\n  \"data\": {\n    \"id\": 15,\n    \"user_id\": 9,\n    \"name\": \"Custom T-shirt Design\",\n    \"product_id\": null,\n    \"design_id\": 1,\n    \"desgin_id\": 1,\n    \"design_data\": {\n      \"product\": {},\n      \"template\": {},\n      \"canvas\": {},\n      \"layers\": []\n    },\n    \"sticker_ids\": [\n      1,\n      2\n    ],\n    \"preview_image_url\": null,\n    \"created_at\": \"2026-07-22T10:00:00.000000Z\",\n    \"updated_at\": \"2026-07-22T10:00:00.000000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Saved Design Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/designs/saved/{{savedDesignId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "saved",
+                "{{savedDesignId}}"
+              ]
+            },
+            "description": "Fetch one saved design owned by the authenticated user."
+          }
+        },
+        {
+          "name": "Update Saved Design",
+          "request": {
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Shirt Design\",\n  \"design_data\": {\n    \"canvas\": {\"width\": 320, \"height\": 420},\n    \"layers\": [\n      {\"type\": \"text\", \"text\": \"Updated\", \"x\": 120, \"y\": 180, \"color\": \"#111111\"}\n    ]\n  },\n  \"sticker_ids\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/designs/saved/{{savedDesignId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "saved",
+                "{{savedDesignId}}"
+              ]
+            },
+            "description": "Update one saved design owned by the authenticated user."
+          }
+        },
+        {
+          "name": "Delete Saved Design",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/designs/saved/{{savedDesignId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "designs",
+                "saved",
+                "{{savedDesignId}}"
+              ]
+            },
+            "description": "Delete one saved design owned by the authenticated user."
           }
         }
       ]
     },
     {
       "name": "Cart",
-      "description": "Recommended mobile cart endpoints. Use token auth for user cart or noauth for guest cart with a guest_id.",
+      "description": "Authenticated database cart endpoints for Flutter. Supports normal products and custom designer products with preserved design_data.",
       "item": [
         {
           "name": "Get Cart",
-          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] } }
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            },
+            "description": "Fetch the authenticated user database cart."
+          },
+          "response": [
+            {
+              "name": "Cart With Custom Designer Item",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cart",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "cart"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"data\": {\n    \"items\": [\n      {\n        \"id\": 1,\n        \"product_id\": null,\n        \"variant_id\": null,\n        \"name\": \"T-shirt مخصص\",\n        \"price\": 299,\n        \"quantity\": 1,\n        \"image_url\": \"assets/images/design/t-shirt.png\",\n        \"preview_image_url\": null,\n        \"color\": \"????\",\n        \"size\": \"M\",\n        \"is_custom_design\": true,\n        \"design_id\": 15,\n        \"design_data\": {\n          \"product\": {},\n          \"template\": {},\n          \"canvas\": {},\n          \"layers\": []\n        }\n      }\n    ],\n    \"subtotal\": 299,\n    \"delivery_fee\": 50,\n    \"total\": 349\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Add Cart Item",
+          "name": "Add Normal Product Cart Item",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
-            "body": { "mode": "raw", "raw": "{\n  \"product_id\": {{productId}},\n  \"variant_id\": {{variantId}},\n  \"quantity\": 1\n}" },
-            "url": { "raw": "{{baseUrl}}/cart/items", "host": ["{{baseUrl}}"], "path": ["cart", "items"] }
-          }
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "items"
+              ]
+            },
+            "description": "Add a catalog product/variant to the authenticated user database cart.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": {{productId}},\n  \"variant_id\": {{variantId}},\n  \"quantity\": 2,\n  \"color\": \"Black\",\n  \"size\": \"L\",\n  \"is_custom_design\": false\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json && json.data.item && json && json.data && json && json.data.item.id) { pm.collectionVariables.set('cartItemId', json.data.item.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Custom Designer Cart Item",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cart/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "items"
+              ]
+            },
+            "description": "Add a saved designer product to the authenticated database cart. Custom design cart items require either design_id or design_data; the cart keeps its own design_data snapshot.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": null,\n  \"name\": \"T-shirt مخصص\",\n  \"price\": 299,\n  \"quantity\": 1,\n  \"image_url\": \"assets/images/design/t-shirt.png\",\n  \"preview_image_url\": null,\n  \"color\": \"????\",\n  \"size\": \"M\",\n  \"is_custom_design\": true,\n  \"design_id\": {{savedDesignId}},\n  \"design_data\": {\n    \"product\": {},\n    \"template\": {},\n    \"canvas\": {},\n    \"layers\": []\n  }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.data && json && json.data.item && json && json.data && json && json.data.item.id) { pm.collectionVariables.set('cartItemId', json.data.item.id); }"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Update Cart Item",
           "request": {
-            "method": "PATCH",
-            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 2\n}" },
-            "url": { "raw": "{{baseUrl}}/cart/items/{{cartItemId}}", "host": ["{{baseUrl}}"], "path": ["cart", "items", "{{cartItemId}}"] }
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cart/items/{{cartItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "items",
+                "{{cartItemId}}"
+              ]
+            },
+            "description": "Update quantity, color, or size for one authenticated user cart item.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 2,\n  \"color\": \"White\",\n  \"size\": \"M\"\n}"
+            }
           }
         },
         {
           "name": "Remove Cart Item",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
-            "url": { "raw": "{{baseUrl}}/cart/items/{{cartItemId}}", "host": ["{{baseUrl}}"], "path": ["cart", "items", "{{cartItemId}}"] }
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart/items/{{cartItemId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "items",
+                "{{cartItemId}}"
+              ]
+            },
+            "description": "Remove one authenticated user cart item."
           }
         },
         {
           "name": "Clear Cart",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
-            "url": { "raw": "{{baseUrl}}/cart", "host": ["{{baseUrl}}"], "path": ["cart"] }
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            },
+            "description": "Clear the authenticated user database cart."
           }
         }
       ]
@@ -234,36 +888,218 @@
           "name": "Checkout Data",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/checkout?coupon_code={{couponCode}}", "host": ["{{baseUrl}}"], "path": ["checkout"], "query": [{ "key": "coupon_code", "value": "{{couponCode}}" }] }
+            "url": {
+              "raw": "{{baseUrl}}/checkout?coupon_code={{couponCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "checkout"
+              ],
+              "query": [
+                {
+                  "key": "coupon_code",
+                  "value": "{{couponCode}}"
+                }
+              ]
+            }
           }
         },
         {
           "name": "Create Order",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "Create an order from the authenticated database cart, preserve custom design item data, and clear the cart.",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cash\",\n  \"coupon_code\": \"{{couponCode}}\"\n}"
-            },
-            "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }
-          }
+              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cashOnDelivery\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Order With Custom Designer Item Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cashOnDelivery\"\n}"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Order created successfully\",\n  \"data\": {\n    \"order\": {\n      \"id\": 55,\n      \"code\": 123456,\n      \"user_id\": 9,\n      \"user_name\": \"Ziad Nabil\",\n      \"phone\": \"01000000000\",\n      \"delivery\": \"Delivery\",\n      \"city\": \"Cairo\",\n      \"address\": \"Test address, Cairo\",\n      \"subtotal\": 299,\n      \"delivery_fee\": 50,\n      \"discount\": 0,\n      \"shipping\": 50,\n      \"total\": 349,\n      \"status\": \"pending\",\n      \"note\": \"Test order from Flutter\",\n      \"payment_method\": \"cashOnDelivery\",\n      \"items\": [\n        {\n          \"id\": 88,\n          \"product_id\": null,\n          \"name\": \"T-shirt مخصص\",\n          \"price\": 299,\n          \"quantity\": 1,\n          \"total_price\": 299,\n          \"image_url\": \"assets/images/design/t-shirt.png\",\n          \"preview_image_url\": null,\n          \"color\": \"????\",\n          \"size\": \"M\",\n          \"is_custom_design\": true,\n          \"design_id\": 15,\n          \"design_data\": {\n            \"product\": {},\n            \"template\": {},\n            \"canvas\": {},\n            \"layers\": []\n          }\n        }\n      ]\n    },\n    \"cart\": {\n      \"items\": [],\n      \"subtotal\": 0,\n      \"delivery_fee\": 0,\n      \"total\": 0\n    }\n  }\n}"
+            }
+          ]
         },
         {
           "name": "My Orders",
-          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] } }
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "List authenticated user order history."
+          },
+          "response": [
+            {
+              "name": "Order History Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Orders fetched successfully\",\n  \"data\": {\n    \"orders\": [\n      {\n        \"id\": 1001,\n        \"status\": \"pending\",\n        \"total\": 349,\n        \"created_at\": \"2026-07-22T10:00:00.000000Z\",\n        \"items_count\": 1\n      }\n    ]\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Order Details",
-          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}"] } }
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "{{orderId}}"
+              ]
+            },
+            "description": "Fetch one authenticated user order with custom designer item snapshots."
+          },
+          "response": [
+            {
+              "name": "Order Details With Custom Designer Item Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/{{orderId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "{{orderId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Order fetched successfully\",\n  \"data\": {\n    \"id\": 1001,\n    \"status\": \"pending\",\n    \"subtotal\": 299,\n    \"delivery_fee\": 50,\n    \"discount\": 0,\n    \"total\": 349,\n    \"shipping_info\": {\n      \"name\": \"Ziad Nabil\",\n      \"phone\": \"01000000000\",\n      \"delivery\": \"Delivery\",\n      \"city\": \"Cairo\",\n      \"address\": \"Test address, Cairo\",\n      \"note\": \"Test order from Flutter\"\n    },\n    \"payment_method\": \"cashOnDelivery\",\n    \"items\": [\n      {\n        \"id\": 1,\n        \"product_id\": null,\n        \"name\": \"T-shirt مخصص\",\n        \"price\": 299,\n        \"quantity\": 1,\n        \"image_url\": \"assets/images/design/t-shirt.png\",\n        \"preview_image_url\": null,\n        \"color\": \"????\",\n        \"size\": \"M\",\n        \"is_custom_design\": true,\n        \"design_id\": 15,\n        \"design_data\": {\n          \"product\": {},\n          \"template\": {},\n          \"canvas\": {},\n          \"layers\": []\n        }\n      }\n    ],\n    \"created_at\": \"2026-07-22T10:00:00.000000Z\"\n  }\n}"
+            }
+          ]
         }
-      ]
+      ],
+      "description": "Checkout/order endpoints. POST /orders creates an order from the authenticated database cart, copies custom design data into order items, then clears the cart."
     },
     {
       "name": "Admin Dashboard API",
       "auth": {
         "type": "bearer",
         "bearer": [
-          { "key": "token", "value": "{{adminToken}}", "type": "string" }
+          {
+            "key": "token",
+            "value": "{{adminToken}}",
+            "type": "string"
+          }
         ]
       },
       "item": [
@@ -271,13 +1107,34 @@
           "name": "Dashboard Overview",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] },
+            "url": {
+              "raw": "{{baseUrl}}/admin/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard"
+              ]
+            },
             "description": "Counts: orders, products, users, messages, revenue, recent orders."
           }
         },
         {
           "name": "Products - Index",
-          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/products", "host": ["{{baseUrl}}"], "path": ["admin", "products"] } }
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/admin/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "products"
+              ]
+            }
+          }
         },
         {
           "name": "Products - Store",
@@ -287,26 +1144,70 @@
               "mode": "raw",
               "raw": "{\n  \"name\": {\"en\": \"T-Shirt\", \"ar\": \"تي شيرت\"},\n  \"description\": {\"en\": \"Cotton t-shirt\", \"ar\": \"تي شيرت قطن\"},\n  \"category_id\": {{categoryId}},\n  \"is_featured\": 1,\n  \"image\": \"products/main.jpg\",\n  \"variants\": [\n    {\"color_id\": {{colorId}}, \"size_id\": 1, \"quantity\": 10, \"price\": 350, \"old_price\": 400}\n  ]\n}"
             },
-            "url": { "raw": "{{baseUrl}}/admin/products", "host": ["{{baseUrl}}"], "path": ["admin", "products"] }
+            "url": {
+              "raw": "{{baseUrl}}/admin/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "products"
+              ]
+            }
           }
         },
         {
           "name": "Orders - Index",
-          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/admin/orders", "host": ["{{baseUrl}}"], "path": ["admin", "orders"] } }
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/admin/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "orders"
+              ]
+            }
+          }
         },
         {
           "name": "Orders - Change Status",
           "request": {
             "method": "PATCH",
-            "body": { "mode": "raw", "raw": "{\n  \"status\": \"processing\"\n}" },
-            "url": { "raw": "{{baseUrl}}/admin/orders/{{orderId}}/status", "host": ["{{baseUrl}}"], "path": ["admin", "orders", "{{orderId}}", "status"] }
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"processing\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/orders/{{orderId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            }
           }
         },
         {
           "name": "Generic Admin Resource Names",
           "request": {
             "method": "GET",
-            "url": { "raw": "{{baseUrl}}/admin/{resource}", "host": ["{{baseUrl}}"], "path": ["admin", "{resource}"] },
+            "url": {
+              "raw": "{{baseUrl}}/admin/{resource}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "{resource}"
+              ]
+            },
             "description": "Use CRUD endpoints for sliders, banners, pages, designs, reviews, settings, contacts, category-types, categories, brands, colors, sizes, deliveries, promo-codes, users, messages, newsletters."
           }
         }
@@ -314,4 +1215,3 @@
     }
   ]
 }
-

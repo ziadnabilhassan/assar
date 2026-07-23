@@ -3,7 +3,10 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\DesignController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductWebController;
 use App\Http\Controllers\Api\OrderCartController;
 use App\Http\Controllers\Api\ShoppingCartController;
@@ -39,7 +42,21 @@ Route::prefix('auth')->group(function () {
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/page/{id?}', [HomeController::class, 'page']);
+Route::get('/pages/{id?}', [HomeController::class, 'page']);
 Route::get('/contacts', [HomeController::class, 'contacts']);
+
+Route::prefix('designs')->group(function () {
+    Route::get('/templates', [DesignController::class, 'templates']);
+    Route::get('/stickers', [DesignController::class, 'stickers']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/saved', [DesignController::class, 'index']);
+        Route::post('/saved', [DesignController::class, 'store']);
+        Route::get('/saved/{savedDesign}', [DesignController::class, 'show']);
+        Route::match(['put', 'patch'], '/saved/{savedDesign}', [DesignController::class, 'update']);
+        Route::delete('/saved/{savedDesign}', [DesignController::class, 'destroy']);
+    });
+});
 
 Route::prefix('products')->group(function () {
 
@@ -47,7 +64,11 @@ Route::prefix('products')->group(function () {
 
     Route::get('/category-type/{id}', [ProductWebController::class, 'categoryType']);
 
+    Route::get('/category-types/{id}', [ProductWebController::class, 'categoryType']);
+
     Route::get('/category/{id}', [ProductWebController::class, 'category']);
+
+    Route::get('/categories/{id}', [ProductWebController::class, 'category']);
 
     Route::get('/gender/{id}', [ProductWebController::class, 'gender']);
 
@@ -59,6 +80,13 @@ Route::prefix('products')->group(function () {
         ProductWebController::class,
         'getUniqueColorsByVariantSize'
     ]);
+
+    Route::get('/{productId}/colors/{colorId}/variants', [
+        ProductWebController::class,
+        'getUniqueColorsByVariantSize'
+    ]);
+
+    Route::get('/{id}', [ProductWebController::class, 'productDetails']);
 });
 
 Route::get('/checkout', [OrderCartController::class, 'index']);
@@ -68,11 +96,16 @@ Route::post('/store-order', [
     'storeOrder'
 ]);
 
-
-Route::get('/cart', [
-    ShoppingCartController::class,
-    'index'
-]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/items', [CartController::class, 'store']);
+    Route::put('/cart/items/{cartItem}', [CartController::class, 'update']);
+    Route::delete('/cart/items/{cartItem}', [CartController::class, 'destroy']);
+    Route::delete('/cart', [CartController::class, 'clear']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
+});
 
 Route::post('/add-to-cart', [
     ShoppingCartController::class,

@@ -167,8 +167,14 @@ class ProductController extends Controller
             $product->variants()->whereIn('id', $variantsToDelete)->delete();
 
             foreach ($variants['quantity'] as $key => $quantity) {
+                $variantId = $requestVariantIds[$key] ?? null;
+
                 $product->variants()->updateOrCreate(
-                    ['id' => $requestVariantIds[$key]], // Find by ID if exists
+                    $variantId ? ['id' => $variantId] : [
+                        'product_id' => $product->id,
+                        'size_id' => $variants['size_id'][$key],
+                        'color_id' => $variants['color_id'][$key],
+                    ],
                     [
                         'size_id' => $variants['size_id'][$key],
                         'color_id' => $variants['color_id'][$key],

@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Address::class);
     }
+
+    public function savedDesigns()
+    {
+        return $this->hasMany(SavedDesign::class);
+    }
 }

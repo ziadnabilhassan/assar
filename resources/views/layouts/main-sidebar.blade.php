@@ -29,6 +29,17 @@
                     <span class="side-menu__label">Sliders</span></a>
             </li>
 
+            {{-- banners --}}
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i style="height: unset; color:#5b6e88" class="fe fe-image side-menu__icon"></i>
+                    <span class="side-menu__label">Banners</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('banners.index') }}">Banners List</a></li>
+                    <li><a class="slide-item" href="{{ route('banners.create') }}">Add Banner</a></li>
+                </ul>
+            </li>
+
             {{-- tickers --}}
             {{-- <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ route('informations.index') }}">
@@ -96,6 +107,27 @@
                 </ul>
             </li>
 
+            {{-- design stickers --}}
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i style="height: unset; color:#5b6e88" class="fe fe-smile side-menu__icon"></i>
+                    <span class="side-menu__label">Design Stickers</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('design-stickers.index') }}">Stickers List</a></li>
+                    <li><a class="slide-item" href="{{ route('design-stickers.create') }}">Add Sticker</a></li>
+                </ul>
+            </li>
+
+            {{-- saved designs --}}
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i style="height: unset; color:#5b6e88" class="fe fe-save side-menu__icon"></i>
+                    <span class="side-menu__label">Saved Designs</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('saved-designs.index') }}">Saved Designs List</a></li>
+                </ul>
+            </li>
+
             {{-- category types --}}
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="#">
@@ -150,6 +182,16 @@
                     <li><a class="slide-item" href="{{ route('products.create') }}">Add Product</a></li>
                     {{-- <li><a class="slide-item" href="{{ route('product.createMultiple') }}">Add Multiple Products</a>
                     </li> --}}
+                </ul>
+            </li>
+
+            {{-- cart items --}}
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i style="height: unset; color:#5b6e88" class="fe fe-shopping-bag side-menu__icon"></i>
+                    <span class="side-menu__label">Cart Items</span><i class="angle fe fe-chevron-down"></i></a>
+                <ul class="slide-menu">
+                    <li><a class="slide-item" href="{{ route('cart-items.index') }}">Cart Items List</a></li>
                 </ul>
             </li>
 
