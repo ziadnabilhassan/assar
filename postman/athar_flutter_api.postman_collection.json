@@ -630,6 +630,194 @@
       ]
     },
     {
+      "name": "Wishlist",
+      "description": "Authenticated user wishlist/favorites endpoints. Uses the Sanctum bearer token and the authenticated user id from middleware.",
+      "item": [
+        {
+          "name": "Get Wishlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wishlist"
+              ]
+            },
+            "description": "Fetch the authenticated user favorite products with id, product_id, name, price, image, and in_stock."
+          },
+          "response": [
+            {
+              "name": "Wishlist Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/wishlist",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wishlist"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"product_id\": 12,\n      \"name\": \"Product name\",\n      \"price\": 299,\n      \"image\": \"https://example.com/products/product.png\",\n      \"in_stock\": true\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Product To Wishlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": {{productId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wishlist"
+              ]
+            },
+            "description": "Add a product to the authenticated user wishlist. Repeating this request returns success without creating a duplicate."
+          },
+          "response": [
+            {
+              "name": "Product Added Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wishlist",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wishlist"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_id\": {{productId}}\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Product added to wishlist\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Product From Wishlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wishlist/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wishlist",
+                "{{productId}}"
+              ]
+            },
+            "description": "Remove a product from the authenticated user wishlist by product id."
+          },
+          "response": [
+            {
+              "name": "Product Removed Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/wishlist/{{productId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wishlist",
+                    "{{productId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Product removed from wishlist\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Cart",
       "description": "Authenticated database cart endpoints for Flutter. Supports normal products and custom designer products with preserved design_data.",
       "item": [
@@ -882,6 +1070,79 @@
       ]
     },
     {
+      "name": "Promo Codes",
+      "description": "Mobile promo code endpoints. Validate can be used with a client subtotal; Apply uses the authenticated database cart and returns checkout-ready totals.",
+      "item": [
+        {
+          "name": "Validate Promo Code",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"{{couponCode}}\",\n  \"subtotal\": 600\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promocodes/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "promocodes",
+                "validate"
+              ]
+            },
+            "description": "Validate a promo code against a supplied subtotal without consuming usage."
+          }
+        },
+        {
+          "name": "Apply Promo Code To Cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"{{couponCode}}\",\n  \"delivery_id\": {{deliveryId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/promocodes/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "promocodes",
+                "apply"
+              ]
+            },
+            "description": "Apply a promo code to the authenticated Flutter cart. Returns subtotal, discount, delivery_fee, and total; it does not increment uses_count until order creation."
+          }
+        }
+      ]
+    },
+    {
       "name": "Checkout And Orders",
       "item": [
         {
@@ -934,10 +1195,10 @@
                 "orders"
               ]
             },
-            "description": "Create an order from the authenticated database cart, preserve custom design item data, and clear the cart.",
+            "description": "Create an order from the authenticated database cart, optionally apply promo_code, preserve custom design item data, increment promo usage, and clear the cart.",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cashOnDelivery\"\n}"
+              "raw": "{\n  \"first_name\": \"Ziad\",\n  \"last_name\": \"Nabil\",\n  \"phone\": \"01000000000\",\n  \"delivery_id\": {{deliveryId}},\n  \"city\": \"Cairo\",\n  \"address\": \"Test address, Cairo\",\n  \"note\": \"Test order from Flutter\",\n  \"payment_method\": \"cashOnDelivery\",\n  \"promo_code\": \"{{couponCode}}\"\n}"
             }
           },
           "response": [
@@ -1086,6 +1347,141 @@
               "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Order fetched successfully\",\n  \"data\": {\n    \"id\": 1001,\n    \"status\": \"pending\",\n    \"subtotal\": 299,\n    \"delivery_fee\": 50,\n    \"discount\": 0,\n    \"total\": 349,\n    \"shipping_info\": {\n      \"name\": \"Ziad Nabil\",\n      \"phone\": \"01000000000\",\n      \"delivery\": \"Delivery\",\n      \"city\": \"Cairo\",\n      \"address\": \"Test address, Cairo\",\n      \"note\": \"Test order from Flutter\"\n    },\n    \"payment_method\": \"cashOnDelivery\",\n    \"items\": [\n      {\n        \"id\": 1,\n        \"product_id\": null,\n        \"name\": \"T-shirt مخصص\",\n        \"price\": 299,\n        \"quantity\": 1,\n        \"image_url\": \"assets/images/design/t-shirt.png\",\n        \"preview_image_url\": null,\n        \"color\": \"????\",\n        \"size\": \"M\",\n        \"is_custom_design\": true,\n        \"design_id\": 15,\n        \"design_data\": {\n          \"product\": {},\n          \"template\": {},\n          \"canvas\": {},\n          \"layers\": []\n        }\n      }\n    ],\n    \"created_at\": \"2026-07-22T10:00:00.000000Z\"\n  }\n}"
             }
           ]
+        },
+        {
+          "name": "Create Order Cash On Delivery",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "Create an authenticated Flutter checkout order paid by cash on delivery. Expected payment_status: cash_on_delivery.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_info\": {\n    \"name\": \"Ziad Nabil\",\n    \"phone\": \"01000000000\",\n    \"city\": \"Cairo\",\n    \"address\": \"Nasr City\",\n    \"note\": \"Call first\"\n  },\n  \"payment_method\": \"cashOnDelivery\",\n  \"items\": [\n    { \"name\": \"Custom T-shirt\", \"price\": 299, \"quantity\": 1, \"color\": \"White\", \"size\": \"M\" }\n  ],\n  \"subtotal\": 299,\n  \"delivery_fee\": 50,\n  \"discount\": 0,\n  \"total\": 349\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Expected Response",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Order created successfully\",\n  \"data\": {\n    \"order\": {\n      \"id\": 101,\n      \"total\": 349,\n      \"status\": \"pending\",\n      \"payment_method\": \"cashOnDelivery\",\n      \"payment_provider\": null,\n      \"payment_status\": \"cash_on_delivery\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Order InstaPay",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "Create an authenticated Flutter InstaPay checkout order. Expected payment_status: awaiting_transfer_proof.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_info\": {\n    \"name\": \"Ziad Nabil\",\n    \"phone\": \"01000000000\",\n    \"city\": \"Cairo\",\n    \"address\": \"Nasr City\"\n  },\n  \"payment_method\": \"instapay\",\n  \"payment_provider\": \"instapay\",\n  \"payment_status\": \"awaiting_transfer_proof\",\n  \"items\": [\n    { \"name\": \"Custom Hoodie\", \"price\": 790, \"quantity\": 2, \"color\": \"Black\", \"size\": \"L\" }\n  ],\n  \"subtotal\": 1580,\n  \"delivery_fee\": 50,\n  \"discount\": 0,\n  \"total\": 1630\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Expected Response",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Order created successfully\",\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"total\": 1630,\n      \"status\": \"pending\",\n      \"payment_method\": \"instapay\",\n      \"payment_provider\": \"instapay\",\n      \"payment_status\": \"awaiting_transfer_proof\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upload InstaPay Payment Proof",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "proof",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/payment-proof",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "{{orderId}}",
+                "payment-proof"
+              ]
+            },
+            "description": "Upload image file field proof. Allowed: jpg, jpeg, png, webp. Max: 5MB. Only the authenticated order owner may upload."
+          },
+          "response": [
+            {
+              "name": "Expected Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Payment proof uploaded successfully\",\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"payment_method\": \"instapay\",\n      \"payment_provider\": \"instapay\",\n      \"payment_status\": \"pending_review\",\n      \"payment_proof_url\": \"http://127.0.0.1:8088/storage/payment-proofs/example.png\"\n    }\n  }\n}"
+            }
+          ]
         }
       ],
       "description": "Checkout/order endpoints. POST /orders creates an order from the authenticated database cart, copies custom design data into order items, then clears the cart."
@@ -1210,6 +1606,95 @@
             },
             "description": "Use CRUD endpoints for sliders, banners, pages, designs, reviews, settings, contacts, category-types, categories, brands, colors, sizes, deliveries, promo-codes, users, messages, newsletters."
           }
+        },
+        {
+          "name": "Admin Orders - InstaPay Filters",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/orders?payment_method=instapay&payment_status=pending_review&status=pending",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "orders"
+              ]
+            },
+            "description": "Admin list with filters: payment_method=instapay, payment_status=proof_uploaded|pending_review|awaiting_transfer_proof|paid|rejected, status=pending|processing|completed|cancelled."
+          },
+          "response": [
+            {
+              "name": "Expected Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Admin orders fetched successfully\",\n  \"data\": {\n    \"orders\": [\n      {\n        \"id\": 102,\n        \"customer\": { \"name\": \"Ziad Nabil\", \"email\": \"ziad@example.com\" },\n        \"total\": 1630,\n        \"status\": \"pending\",\n        \"payment_method\": \"instapay\",\n        \"payment_provider\": \"instapay\",\n        \"payment_status\": \"pending_review\",\n        \"payment_proof_url\": \"http://127.0.0.1:8088/storage/payment-proofs/example.png\",\n        \"created_at\": \"2026-07-29T10:00:00.000000Z\"\n      }\n    ],\n    \"pagination\": { \"current_page\": 1, \"last_page\": 1, \"per_page\": 20, \"total\": 1 }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Admin Approve Reject Payment Proof",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/orders/{{orderId}}/payment-proof/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "orders",
+                "{{orderId}}",
+                "payment-proof",
+                "status"
+              ]
+            },
+            "description": "Admin review endpoint. payment_status can be paid, rejected, or pending_review.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_status\": \"paid\",\n  \"admin_note\": \"Transfer confirmed\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "Expected Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"status\": true,\n  \"message\": \"Payment proof status updated successfully\",\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"payment_status\": \"paid\",\n      \"admin_note\": \"Transfer confirmed\"\n    }\n  }\n}"
+            }
+          ]
         }
       ]
     }

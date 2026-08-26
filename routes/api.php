@@ -1,19 +1,17 @@
 <?php
-
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\DesignController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductWebController;
 use App\Http\Controllers\Api\OrderCartController;
+use App\Http\Controllers\Api\PromoCodeController;
 use App\Http\Controllers\Api\ShoppingCartController;
+use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Support\Facades\Route;
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +89,8 @@ Route::prefix('products')->group(function () {
 
 Route::get('/checkout', [OrderCartController::class, 'index']);
 
+Route::post('/promocodes/validate', [PromoCodeController::class, 'validateCode']);
+
 Route::post('/store-order', [
     OrderCartController::class,
     'storeOrder'
@@ -102,9 +102,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/cart/items/{cartItem}', [CartController::class, 'update']);
     Route::delete('/cart/items/{cartItem}', [CartController::class, 'destroy']);
     Route::delete('/cart', [CartController::class, 'clear']);
+    Route::post('/promocodes/apply', [PromoCodeController::class, 'applyToCart']);
+    Route::post('/promo-codes/apply', [PromoCodeController::class, 'applyToCart']);
+    Route::get('/wishlist', [WishlistController::class, 'index']);
+    Route::post('/wishlist', [WishlistController::class, 'store']);
+    Route::delete('/wishlist/{product_id}', [WishlistController::class, 'destroy']);
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::post('/orders/{order}/payment-proof', [OrderController::class, 'uploadPaymentProof']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+});
+
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminOrderController::class, 'dashboard']);
+    Route::get('/orders', [AdminOrderController::class, 'index']);
+    Route::patch('/orders/{order}/payment-proof/status', [AdminOrderController::class, 'updatePaymentProofStatus']);
 });
 
 Route::post('/add-to-cart', [

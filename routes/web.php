@@ -89,6 +89,7 @@ Route::group(
             Route::resource('/orders', OrderController::class);
             Route::resource('/users', ClientController::class);
             Route::post('/orders/change-status/{id}', [OrderController::class, 'changeStatus'])->name('orders.status');
+            Route::post('/orders/{order}/payment-proof/status', [OrderController::class, 'reviewPaymentProof'])->name('orders.payment-proof.status');
 
             Route::get('/product/images/{id}', [ProductImageController::class, 'index'])->name('product.images');
             Route::post('/product/images/store', [ProductImageController::class, 'store'])->name('product.images.store');

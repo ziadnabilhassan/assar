@@ -43,6 +43,22 @@ class DashboardController extends Controller
 
         $totalCartItems = CartItem::count();
 
+        $totalOrders = Order::count();
+
+        $pendingInstapayProofs = Order::where('payment_provider', 'instapay')
+            ->where('payment_status', 'awaiting_transfer_proof')
+            ->count();
+
+        $uploadedInstapayProofs = Order::where('payment_provider', 'instapay')
+            ->whereIn('payment_status', ['proof_uploaded', 'pending_review'])
+            ->count();
+
+        $recentInstapayOrders = Order::with('user')
+            ->where('payment_provider', 'instapay')
+            ->latest()
+            ->take(8)
+            ->get();
+
 
         // =========================
         // AVG RATING
@@ -117,6 +133,10 @@ class DashboardController extends Controller
             'totalDesignStickers',
             'totalSavedDesigns',
             'totalCartItems',
+            'totalOrders',
+            'pendingInstapayProofs',
+            'uploadedInstapayProofs',
+            'recentInstapayOrders',
             'avgRating',
             'topCategories',
             'latestProducts',

@@ -13,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->get();
+        $orders = Order::with('user')->latest()->get();
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -49,6 +49,21 @@ class OrderController extends Controller
         $order->status = $request->status;
         $order->save();
         return back()->with('success', 'Order status updated successfully.');
+    }
+
+    public function reviewPaymentProof(Request $request, Order $order)
+    {
+        $data = $request->validate([
+            'payment_status' => 'required|in:paid,rejected,pending_review',
+            'admin_note' => 'nullable|string|max:1000',
+        ]);
+
+        $order->forceFill([
+            'payment_status' => $data['payment_status'],
+            'payment_admin_note' => $data['admin_note'] ?? null,
+        ])->save();
+
+        return back()->with('success', 'Payment proof status updated successfully.');
     }
 
     /**

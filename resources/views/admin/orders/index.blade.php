@@ -42,6 +42,9 @@
                                     <th class="wd-25p border-bottom-0">Shipping</th>
                                     <th class="wd-25p border-bottom-0">Total</th>
                                     <th class="wd-25p border-bottom-0">Delivery</th>
+                                    <th class="wd-25p border-bottom-0">Payment</th>
+                                    <th class="wd-25p border-bottom-0">Payment Status</th>
+                                    <th class="wd-25p border-bottom-0">Proof</th>
                                     <th class="wd-25p border-bottom-0">Read</th>
                                     <th class="wd-25p border-bottom-0">Date</th>
                                     <th class="wd-25p border-bottom-0">Control</th>
@@ -69,6 +72,38 @@
                                         <td>LE {{ $order->shipping }}</td>
                                         <td>LE {{ $order->total }}</td>
                                         <td>{{ $order->delivery }}</td>
+                                        <td>
+                                            <span class="badge badge-light">
+                                                {{ $order->payment_method ?? '-' }}
+                                            </span>
+                                            @if ($order->payment_provider)
+                                                <small class="d-block text-muted">{{ $order->payment_provider }}</small>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($order->payment_status == 'awaiting_transfer_proof')
+                                                <span class="badge badge-warning text-white">Awaiting Proof</span>
+                                            @elseif (in_array($order->payment_status, ['proof_uploaded', 'pending_review']))
+                                                <span class="badge badge-info text-white">Pending Review</span>
+                                            @elseif ($order->payment_status == 'paid')
+                                                <span class="badge badge-success text-white">Paid</span>
+                                            @elseif ($order->payment_status == 'rejected')
+                                                <span class="badge badge-danger text-white">Rejected</span>
+                                            @elseif ($order->payment_status == 'cash_on_delivery')
+                                                <span class="badge badge-secondary text-white">Cash On Delivery</span>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($order->payment_proof_url)
+                                                <a href="{{ $order->payment_proof_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    View
+                                                </a>
+                                            @else
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($order->readed)
                                                 <span class="badge badge-success text-white">Yes</span>

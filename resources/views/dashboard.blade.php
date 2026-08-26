@@ -57,6 +57,18 @@
         background: linear-gradient(45deg,#fd7e14,#c2410c);
     }
 
+    .bg-orders{
+        background: linear-gradient(45deg,#6f42c1,#4e73df);
+    }
+
+    .bg-instapay-pending{
+        background: linear-gradient(45deg,#f6c23e,#fd7e14);
+    }
+
+    .bg-instapay-uploaded{
+        background: linear-gradient(45deg,#1cc88a,#36b9cc);
+    }
+
     .table img{
         object-fit: cover;
         border-radius: 10px;
@@ -246,7 +258,7 @@
     <div class="row">
 
         {{-- DESIGN STICKERS --}}
-        <div class="col-xl-4 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
             <a href="{{ route('design-stickers.index') }}" class="text-decoration-none">
                 <div class="card dashboard-card shadow">
                     <div class="card-body">
@@ -265,7 +277,7 @@
         </div>
 
         {{-- SAVED DESIGNS --}}
-        <div class="col-xl-4 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
             <a href="{{ route('saved-designs.index') }}" class="text-decoration-none">
                 <div class="card dashboard-card shadow">
                     <div class="card-body">
@@ -284,7 +296,7 @@
         </div>
 
         {{-- CART ITEMS --}}
-        <div class="col-xl-4 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
             <a href="{{ route('cart-items.index') }}" class="text-decoration-none">
                 <div class="card dashboard-card shadow">
                     <div class="card-body">
@@ -295,6 +307,67 @@
                             </div>
                             <div class="dashboard-icon bg-cart-items">
                                 <i class="las la-shopping-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {{-- ORDERS --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('orders.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Orders</h6>
+                                <h2 class="fw-bold text-dark">{{ $totalOrders }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-orders">
+                                <i class="las la-receipt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        {{-- INSTAPAY PENDING --}}
+        <div class="col-xl-6 col-md-6 mb-4">
+            <a href="{{ route('orders.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Awaiting InstaPay Proof</h6>
+                                <h2 class="fw-bold text-warning">{{ $pendingInstapayProofs }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-instapay-pending">
+                                <i class="las la-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {{-- INSTAPAY UPLOADED --}}
+        <div class="col-xl-6 col-md-6 mb-4">
+            <a href="{{ route('orders.index') }}" class="text-decoration-none">
+                <div class="card dashboard-card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">InstaPay Proofs To Review</h6>
+                                <h2 class="fw-bold text-success">{{ $uploadedInstapayProofs }}</h2>
+                            </div>
+                            <div class="dashboard-icon bg-instapay-uploaded">
+                                <i class="las la-file-invoice-dollar"></i>
                             </div>
                         </div>
                     </div>
@@ -473,6 +546,93 @@
                     </div>
 
                 </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- INSTAPAY ORDERS --}}
+    <div class="card shadow dashboard-card mb-4">
+
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+                Recent InstaPay Orders
+            </h5>
+
+            <a href="{{ route('orders.index') }}" class="btn btn-sm btn-primary">
+                View Orders
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Payment Status</th>
+                            <th>Proof</th>
+                            <th>Date</th>
+                            <th>Control</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($recentInstapayOrders as $order)
+
+                            <tr>
+                                <td>#{{ $order->code }}</td>
+                                <td>
+                                    {{ $order->user_name }}
+                                    @if($order->user?->email)
+                                        <small class="d-block text-muted">{{ $order->user->email }}</small>
+                                    @endif
+                                </td>
+                                <td>LE {{ $order->total }}</td>
+                                <td>
+                                    <span class="badge badge-info text-white">{{ $order->payment_status ?? '-' }}</span>
+                                </td>
+                                <td>
+                                    @if($order->payment_proof_url)
+                                        <a href="{{ $order->payment_proof_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            View Proof
+                                        </a>
+                                    @else
+                                        <span class="text-muted">No proof</span>
+                                    @endif
+                                </td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('orders.show', $order->id) }}" class="btn btn-sm btn-warning">
+                                        Review
+                                    </a>
+                                </td>
+                            </tr>
+
+                        @empty
+
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No InstaPay orders yet.</td>
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
 
             </div>
 

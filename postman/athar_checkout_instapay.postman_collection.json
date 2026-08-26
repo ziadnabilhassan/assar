@@ -1,0 +1,194 @@
+{
+  "info": {
+    "_postman_id": "athar-checkout-instapay",
+    "name": "Athar Checkout, Orders, and InstaPay Proofs",
+    "description": "Focused collection for Flutter checkout orders, authenticated order history, InstaPay proof upload, and admin proof review.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "adminToken", "value": "", "type": "string" },
+    { "key": "orderId", "value": "1", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"ziad@example.com\",\n  \"password\": \"password\",\n  \"device_name\": \"postman\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/login",
+        "description": "Expected 200: returns data.user and data.token. Save data.token as token or adminToken."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"1|sanctum-token\",\n    \"user\": { \"id\": 7, \"email\": \"ziad@example.com\", \"is_admin\": false }\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create Order Cash On Delivery",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shipping_info\": {\n    \"name\": \"Ziad Nabil\",\n    \"phone\": \"01000000000\",\n    \"city\": \"Cairo\",\n    \"address\": \"Nasr City\",\n    \"note\": \"Call first\"\n  },\n  \"payment_method\": \"cashOnDelivery\",\n  \"items\": [\n    { \"name\": \"Custom T-shirt\", \"price\": 299, \"quantity\": 1, \"color\": \"White\", \"size\": \"M\" }\n  ],\n  \"subtotal\": 299,\n  \"delivery_fee\": 50,\n  \"discount\": 0,\n  \"total\": 349\n}"
+        },
+        "url": "{{baseUrl}}/orders",
+        "description": "Expected 201: order belongs to bearer-token user, payment_status is cash_on_delivery."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"order\": {\n      \"id\": 101,\n      \"total\": 349,\n      \"status\": \"pending\",\n      \"payment_method\": \"cashOnDelivery\",\n      \"payment_provider\": null,\n      \"payment_status\": \"cash_on_delivery\"\n    }\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create Order InstaPay",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shipping_info\": {\n    \"name\": \"Ziad Nabil\",\n    \"phone\": \"01000000000\",\n    \"city\": \"Cairo\",\n    \"address\": \"Nasr City\"\n  },\n  \"payment_method\": \"instapay\",\n  \"payment_provider\": \"instapay\",\n  \"payment_status\": \"awaiting_transfer_proof\",\n  \"items\": [\n    { \"name\": \"Custom Hoodie\", \"price\": 790, \"quantity\": 2, \"color\": \"Black\", \"size\": \"L\" }\n  ],\n  \"subtotal\": 1580,\n  \"delivery_fee\": 50,\n  \"discount\": 0,\n  \"total\": 1630\n}"
+        },
+        "url": "{{baseUrl}}/orders",
+        "description": "Expected 201: set orderId from data.order.id, payment_provider is instapay, payment_status is awaiting_transfer_proof."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"total\": 1630,\n      \"status\": \"pending\",\n      \"payment_method\": \"instapay\",\n      \"payment_provider\": \"instapay\",\n      \"payment_status\": \"awaiting_transfer_proof\"\n    }\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get My Orders",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{baseUrl}}/orders",
+        "description": "Expected 200: only orders owned by bearer-token user. Flutter reads payment_method/payment_provider here."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"orders\": [\n      {\n        \"id\": 102,\n        \"status\": \"pending\",\n        \"total\": 1630,\n        \"created_at\": \"2026-07-29T10:00:00.000000Z\",\n        \"payment_method\": \"instapay\",\n        \"payment_provider\": \"instapay\",\n        \"payment_status\": \"awaiting_transfer_proof\",\n        \"payment_proof_url\": null,\n        \"items_count\": 1\n      }\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Upload InstaPay Payment Proof",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "method": "POST",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "proof", "type": "file", "src": [] }
+          ]
+        },
+        "url": "{{baseUrl}}/orders/{{orderId}}/payment-proof",
+        "description": "Expected 200: proof must be jpg, jpeg, png, or webp and <= 5MB. Only the order owner can upload."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"payment_method\": \"instapay\",\n      \"payment_provider\": \"instapay\",\n      \"payment_status\": \"pending_review\",\n      \"payment_proof_url\": \"http://127.0.0.1:8000/storage/payment-proofs/example.png\"\n    }\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{adminToken}}", "type": "string" }] },
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{baseUrl}}/admin/dashboard",
+        "description": "Expected 200 for admins only."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"counts\": {\n      \"total_orders\": 12,\n      \"pending_instapay_proofs\": 3,\n      \"uploaded_instapay_proofs\": 2\n    },\n    \"recent_orders\": [\n      {\n        \"id\": 102,\n        \"customer\": { \"name\": \"Ziad Nabil\", \"email\": \"ziad@example.com\" },\n        \"total\": 1630,\n        \"status\": \"pending\",\n        \"payment_method\": \"instapay\",\n        \"payment_provider\": \"instapay\",\n        \"payment_status\": \"pending_review\",\n        \"payment_proof_url\": \"http://127.0.0.1:8000/storage/payment-proofs/example.png\",\n        \"created_at\": \"2026-07-29T10:00:00.000000Z\"\n      }\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Admin Orders List",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{adminToken}}", "type": "string" }] },
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{baseUrl}}/admin/orders?payment_method=instapay&payment_status=pending_review&status=pending",
+        "description": "Supported filters: payment_method=instapay, payment_status=proof_uploaded|pending_review|awaiting_transfer_proof|paid|rejected, status=pending|processing|completed|cancelled."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"orders\": [\n      {\n        \"id\": 102,\n        \"customer\": { \"name\": \"Ziad Nabil\", \"email\": \"ziad@example.com\" },\n        \"total\": 1630,\n        \"status\": \"pending\",\n        \"payment_method\": \"instapay\",\n        \"payment_provider\": \"instapay\",\n        \"payment_status\": \"pending_review\",\n        \"payment_proof_url\": \"http://127.0.0.1:8000/storage/payment-proofs/example.png\",\n        \"created_at\": \"2026-07-29T10:00:00.000000Z\"\n      }\n    ],\n    \"pagination\": { \"current_page\": 1, \"last_page\": 1, \"per_page\": 20, \"total\": 1 }\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Admin Approve Reject Payment Proof",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{adminToken}}", "type": "string" }] },
+        "method": "PATCH",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"payment_status\": \"paid\",\n  \"admin_note\": \"Transfer confirmed\"\n}"
+        },
+        "url": "{{baseUrl}}/admin/orders/{{orderId}}/payment-proof/status",
+        "description": "payment_status can be paid, rejected, or pending_review."
+      },
+      "response": [
+        {
+          "name": "Expected",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"order\": {\n      \"id\": 102,\n      \"payment_status\": \"paid\",\n      \"admin_note\": \"Transfer confirmed\"\n    }\n  }\n}"
+        }
+      ]
+    }
+  ]
+}

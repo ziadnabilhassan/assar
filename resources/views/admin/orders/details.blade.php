@@ -99,10 +99,76 @@
                             <div class="col-4 font-weight-bold">Total Price:</div>
                             <div class="col-8">LE {{ $order->total }}</div>
                         </div>
+                        <div class="row mb-2">
+                            <div class="col-4 font-weight-bold">Payment Method:</div>
+                            <div class="col-8">{{ $order->payment_method ?? '-' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 font-weight-bold">Payment Provider:</div>
+                            <div class="col-8">{{ $order->payment_provider ?? '-' }}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4 font-weight-bold">Payment Status:</div>
+                            <div class="col-8">
+                                <span class="badge badge-info text-white">{{ $order->payment_status ?? '-' }}</span>
+                            </div>
+                        </div>
+                        @if ($order->payment_admin_note)
+                            <div class="row mb-2">
+                                <div class="col-4 font-weight-bold">Admin Note:</div>
+                                <div class="col-8">{{ $order->payment_admin_note }}</div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+        @if ($order->payment_method === 'instapay' || $order->payment_provider === 'instapay')
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header mb-0 pb-0">
+                            <h5 class="card-title text-primary mb-0">InstaPay Payment Proof</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-5 mb-3">
+                                    @if ($order->payment_proof_url)
+                                        <a href="{{ $order->payment_proof_url }}" target="_blank">
+                                            <img src="{{ $order->payment_proof_url }}" alt="payment proof" class="img-fluid rounded border">
+                                        </a>
+                                    @else
+                                        <div class="alert alert-warning mb-0">
+                                            The customer has not uploaded an InstaPay proof yet.
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-md-7">
+                                    <form action="{{ route('orders.payment-proof.status', $order->id) }}" method="post">
+                                        @csrf
+                                        <label for="payment_status">Review Payment Proof</label>
+                                        <select name="payment_status" id="payment_status" class="form-control mb-3">
+                                            <option value="pending_review" {{ $order->payment_status == 'pending_review' || $order->payment_status == 'proof_uploaded' ? 'selected' : '' }}>
+                                                Pending Review
+                                            </option>
+                                            <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>
+                                                Paid
+                                            </option>
+                                            <option value="rejected" {{ $order->payment_status == 'rejected' ? 'selected' : '' }}>
+                                                Rejected
+                                            </option>
+                                        </select>
+                                        <label for="admin_note">Admin Note</label>
+                                        <textarea name="admin_note" id="admin_note" class="form-control mb-3" rows="3">{{ old('admin_note', $order->payment_admin_note) }}</textarea>
+                                        <button class="btn btn-primary" type="submit">Save Review</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         <!-- Order actions -->
         <div class="row mb-4">
             <div class="col-12">
